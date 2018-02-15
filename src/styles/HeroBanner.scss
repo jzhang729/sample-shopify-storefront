@@ -1,5 +1,12 @@
-.hero {
-  width: 100%;
+.hero-banner {
+  width: 80vw;
+  height: 245px;
   display: block;
-  border: 1px solid red;
+  margin: 0 auto;
+  background-image: url('../images/focal-utopia-hero-banner.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 1rem;
+  text-align: center;
+  color: #ffffff;
 }

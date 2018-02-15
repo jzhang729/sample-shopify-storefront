@@ -6,6 +6,7 @@ import query from '../queries/shopQuery';
 import Header from './Header';
 import ProductList from './ProductList';
 import HeroBanner from './HeroBanner';
+import BestSelling from './BestSelling';
 import {
   createCheckout,
   checkoutLineItemsAdd,
@@ -27,11 +28,12 @@ class App extends Component {
     }
 
     return (
-      <div>
+      <div className="container">
         <Header shop={shop} />
         <BrowserRouter>
           <div>
             <Route exact path="/" component={HeroBanner} />
+            <Route exact path="/" component={BestSelling} />
             <Route path="/all" component={ProductList} />
           </div>
         </BrowserRouter>

@@ -1,0 +1,14 @@
+.collection__best-selling {
+  width: 80vw;
+  margin: 0 auto;
+  display: block;
+}
+
+.collection__best-selling--list {
+  list-style-type: none;
+
+  ul {
+    margin: 1rem;
+    padding: 1rem;
+  }
+}

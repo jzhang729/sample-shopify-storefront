@@ -6,6 +6,7 @@
     "apollo-client": "^2.2.5",
     "apollo-client-preset": "^1.0.8",
     "node-sass-chokidar": "0.0.3",
+    "npm-run-all": "^4.1.2",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-addons-create-fragment": "^15.5.3",
@@ -17,11 +18,13 @@
     "react-scripts": "0.9.5"
   },
   "scripts": {
+    "start-js": "react-scripts start",
+    "build-js": "react-scripts build",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css":
       "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm-run-all build-css build-js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
