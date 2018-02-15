@@ -1,0 +1,28 @@
+{
+  "name": "react-js-buy",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "apollo-client": "^2.2.5",
+    "apollo-client-preset": "^1.0.8",
+    "node-sass-chokidar": "0.0.3",
+    "prop-types": "^15.5.8",
+    "react": "^15.5.4",
+    "react-addons-create-fragment": "^15.5.3",
+    "react-apollo": "^1.4.2",
+    "react-dom": "^15.5.4",
+    "react-router-dom": "^4.2.2"
+  },
+  "devDependencies": {
+    "react-scripts": "0.9.5"
+  },
+  "scripts": {
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css":
+      "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
