@@ -1,4 +1,4 @@
-# Headphones.com (Custom Storefront)
+# Sample Shopify Storefront
 
 This project is a starting point to learn more about the Shopify Storefront API that utilizes GraphQL to make authenticated requests to the Shopify API. It allows merchants the ability to create customized storefronts that go a long way in enhancing the customer experience.
 

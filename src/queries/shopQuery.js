@@ -34,6 +34,7 @@ export default gql`
                   }
                   image {
                     src
+                    transformedSrc(maxWidth: 300, preferredContentType: WEBP)
                   }
                   price
                 }
@@ -47,6 +48,7 @@ export default gql`
               edges {
                 node {
                   src
+                  transformedSrc(maxWidth: 300, preferredContentType: WEBP)
                 }
               }
             }

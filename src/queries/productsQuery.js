@@ -2,51 +2,16 @@ import gql from 'graphql-tag';
 
 export default gql`
   query {
-    shop {
-      products(first: 5) {
-        pageInfo {
-          hasNextPage
-          hasPreviousPage
-        }
-        edges {
-          node {
-            id
-            title
-            options {
+    node(id: "Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0Lzg1MzY1Mzg0ODEwOA==") {
+      id
+      ... on Product {
+        title
+        images(first: 5) {
+          edges {
+            node {
               id
-              name
-              values
-            }
-            variants(first: 250) {
-              pageInfo {
-                hasNextPage
-                hasPreviousPage
-              }
-              edges {
-                node {
-                  id
-                  title
-                  selectedOptions {
-                    name
-                    value
-                  }
-                  image {
-                    src
-                  }
-                  price
-                }
-              }
-            }
-            images(first: 250) {
-              pageInfo {
-                hasNextPage
-                hasPreviousPage
-              }
-              edges {
-                node {
-                  src
-                }
-              }
+              originalSrc
+              transformedSrc(maxWidth: 500, preferredContentType: WEBP)
             }
           }
         }

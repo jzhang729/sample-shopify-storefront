@@ -1,12 +1,11 @@
-import '../styles/App.css';
+import './App.css';
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
-import query from '../queries/shopQuery';
-import Header from './Header';
-import ProductList from './ProductList';
-import HeroBanner from './HeroBanner';
-import BestSelling from './BestSelling';
+import query from './queries/shopQuery';
+import Header from './components/Header';
+import ProductsList from './components/ProductsList';
+
 import {
   createCheckout,
   checkoutLineItemsAdd,
@@ -17,11 +16,11 @@ import {
   // updateLineItemInCart,
   // removeLineItemInCart,
   // associateCustomerCheckout
-} from '../helpers/checkout';
+} from './helpers/checkout';
 
 class App extends Component {
   render() {
-    const { loading, data: { shop } } = this.props;
+    const { loading, data: { shop } } = this.props;    
 
     if (loading) {
       return <div>Loading...</div>;
@@ -32,9 +31,7 @@ class App extends Component {
         <Header shop={shop} />
         <BrowserRouter>
           <div>
-            <Route exact path="/" component={HeroBanner} />
-            <Route exact path="/" component={BestSelling} />
-            <Route path="/all" component={ProductList} />
+            <Route path="/" component={ProductsList} />
           </div>
         </BrowserRouter>
       </div>
