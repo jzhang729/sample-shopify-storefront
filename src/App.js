@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+// import { BrowserRouter, Route } from "react-router-dom";
 import { graphql, compose } from "react-apollo";
 import query from "./queries/shopQuery";
 import Header from "./components/Header";
@@ -30,18 +30,16 @@ class App extends Component {
       data: { shop }
     } = this.props;
 
-    if (loading) {
+    if (loading || !shop) {
       return <div>Loading...</div>;
     }
 
+    const { name, description, products } = shop;
+
     return (
       <AppWrapper>
-        <Header shop={shop} />
-        <BrowserRouter>
-          <div>
-            <Route path="/" component={ProductsList} />
-          </div>
-        </BrowserRouter>
+        <Header name={name} description={description} />
+        <ProductsList loading={loading} products={products} />
       </AppWrapper>
     );
   }

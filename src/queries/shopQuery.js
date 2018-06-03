@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export default gql`
   query {
@@ -19,36 +19,11 @@ export default gql`
               name
               values
             }
-            variants(first: 250) {
-              pageInfo {
-                hasNextPage
-                hasPreviousPage
-              }
-              edges {
-                node {
-                  id
-                  title
-                  selectedOptions {
-                    name
-                    value
-                  }
-                  image {
-                    src
-                    transformedSrc(maxWidth: 300, preferredContentType: WEBP)
-                  }
-                  price
-                }
-              }
-            }
-            images(first: 250) {
-              pageInfo {
-                hasNextPage
-                hasPreviousPage
-              }
+            images(first: 10) {
               edges {
                 node {
                   src
-                  transformedSrc(maxWidth: 300, preferredContentType: WEBP)
+                  transformedSrc(maxWidth: 200, preferredContentType: WEBP)
                 }
               }
             }

@@ -17,7 +17,8 @@ export default gql`
                 node {
                   id
                   altText
-                  transformedSrc(maxWidth: 200, preferredContentType: WEBP)
+                  originalSrc
+                  transformedSrc(maxWidth: 150, preferredContentType: WEBP)
                 }
               }
             }
