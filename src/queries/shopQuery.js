@@ -19,11 +19,34 @@ export default gql`
               name
               values
             }
-            images(first: 10) {
+            variants(first: 250) {
+              pageInfo {
+                hasNextPage
+                hasPreviousPage
+              }
+              edges {
+                node {
+                  id
+                  title
+                  selectedOptions {
+                    name
+                    value
+                  }
+                  image {
+                    src
+                  }
+                  price
+                }
+              }
+            }
+            images(first: 250) {
+              pageInfo {
+                hasNextPage
+                hasPreviousPage
+              }
               edges {
                 node {
                   src
-                  transformedSrc(maxWidth: 200, preferredContentType: WEBP)
                 }
               }
             }
