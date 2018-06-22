@@ -57,10 +57,11 @@
     "whatwg-fetch": "2.0.3"
   },
   "devDependencies": {
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "enzyme": "3.0.0",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-react": "^7.7.0",
-    "enzyme": "3.0.0"
+    "eslint-plugin-react": "^7.7.0"
   },
   "scripts": {
     "start-js": "node scripts/start.js",
@@ -108,6 +109,9 @@
   "babel": {
     "presets": [
       "react-app"
+    ],
+    "plugins": [
+      "transform-class-properties"
     ]
   },
   "eslintConfig": {
