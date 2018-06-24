@@ -47,6 +47,7 @@ export default gql`
               edges {
                 node {
                   src
+                  transformedSrc(maxWidth: 200, preferredContentType: PNG)
                 }
               }
             }

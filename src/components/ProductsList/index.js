@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Product from "./Product";
+import Product from "./ProductPreview";
 import styled from "styled-components";
 
 const OuterWrapper = styled.div`
