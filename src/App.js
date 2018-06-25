@@ -33,9 +33,10 @@ class App extends Component {
 
   state = {
     accountVerificationMessage: false,
+    isCartOpen: false,
+    checkout: { lineItems: { edges: [] } },
     isNewCustomer: false,
-    products: [],
-    checkout: { lineItems: { edges: [] } }
+    products: []
   };
 
   componentWillMount() {
@@ -52,17 +53,17 @@ class App extends Component {
       });
   }
 
-  handleCartOpen = () => {
-    this.setState({
-      isCartOpen: true
-    });
-  };
+  // handleCartOpen = () => {
+  //   this.setState({
+  //     isCartOpen: true
+  //   });
+  // };
 
-  handleCartClose = () => {
-    this.setState({
-      isCartOpen: false
-    });
-  };
+  // handleCartClose = () => {
+  //   this.setState({
+  //     isCartOpen: false
+  //   });
+  // };
 
   showAccountVerificationMessage = () => {
     this.setState({ accountVerificationMessage: true });
@@ -87,25 +88,26 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div>
-          <Route
-            path="/"
-            render={props => {
-              return (
-                <ShopContext.Consumer>
-                  {({ isCartOpen, toggleCart }) => {
-                    return (
-                      <Header
-                        accountVerificationMessage={this.state.accountVerificationMessage}
-                        isCartOpen={isCartOpen}
-                        title={this.props.data.shop.name}
-                        toggleCart={toggleCart}
-                      />
-                    );
-                  }}
-                </ShopContext.Consumer>
-              );
+          <ShopContext.Provider
+            value={{
+              isCartOpen: this.state.isCartOpen,
+              toggleCart: () => {
+                this.setState({ isCartOpen: !this.state.isCartOpen });
+              }
             }}
-          />
+          >
+            <Route
+              path="/"
+              render={props => {
+                return (
+                  <Header
+                    accountVerificationMessage={this.state.accountVerificationMessage}
+                    title={this.props.data.shop.name}
+                  />
+                );
+              }}
+            />
+          </ShopContext.Provider>
 
           <Route
             exact
@@ -126,20 +128,13 @@ class App extends Component {
             path="/"
             render={props => {
               return (
-                <ShopContext.Consumer>
-                  {(isCartOpen, toggleCart) => {
-                    return (
-                      <Cart
-                        removeLineItemInCart={this.removeLineItemInCart}
-                        isCartOpen={isCartOpen}
-                        updateLineItemInCart={this.updateLineItemInCart}
-                        checkout={this.state.checkout}
-                        handleCartClose={toggleCart}
-                        customerAccessToken={this.state.customerAccessToken}
-                      />
-                    );
-                  }}
-                </ShopContext.Consumer>
+                <Cart
+                  removeLineItemInCart={this.removeLineItemInCart}
+                  isCartOpen={this.state.isCartOpen}
+                  updateLineItemInCart={this.updateLineItemInCart}
+                  checkout={this.state.checkout}
+                  customerAccessToken={this.state.customerAccessToken}
+                />
               );
             }}
           />

@@ -1,8 +1,17 @@
 import React, { Component } from "react";
 
 class Cart extends Component {
-  render() {
+  renderCart = () => {
+    const { isCartOpen } = this.props;
+
+    if (!isCartOpen) {
+      return null;
+    }
+
     return <div className="cart">I am the cart</div>;
+  };
+  render() {
+    return <div>{this.renderCart()}</div>;
   }
 }
 
