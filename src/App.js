@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import baseStyles from "./base-styles";
 import PropTypes from "prop-types";
 import { graphql, compose } from "react-apollo";
@@ -10,6 +10,11 @@ import Cart from "./components/Cart";
 import Header from "./components/Header";
 import ProductsList from "./components/ProductsList";
 import Footer from "./components/Footer";
+import NotFound from "./components/NotFound";
+import Product from "./components/Product";
+
+import "./App.css";
+import "../node_modules/tachyons/css/tachyons.min.css";
 
 import {
   createCheckout,
@@ -53,18 +58,6 @@ class App extends Component {
       });
   }
 
-  // handleCartOpen = () => {
-  //   this.setState({
-  //     isCartOpen: true
-  //   });
-  // };
-
-  // handleCartClose = () => {
-  //   this.setState({
-  //     isCartOpen: false
-  //   });
-  // };
-
   showAccountVerificationMessage = () => {
     this.setState({ accountVerificationMessage: true });
     setTimeout(() => {
@@ -85,9 +78,11 @@ class App extends Component {
       return <p>{this.props.data.error.message}</p>;
     }
 
+    const cartClassToggle = `Content__wrapper ${this.state.isCartOpen ? "cart-visible" : ""}`;
+
     return (
       <BrowserRouter>
-        <div>
+        <div className="App__wrapper">
           <ShopContext.Provider
             value={{
               isCartOpen: this.state.isCartOpen,
@@ -96,48 +91,60 @@ class App extends Component {
               }
             }}
           >
+            <div className="Header__wrapper">
+              <Route
+                path="/"
+                render={props => {
+                  return (
+                    <Header
+                      accountVerificationMessage={this.state.accountVerificationMessage}
+                      title={this.props.data.shop.name}
+                    />
+                  );
+                }}
+              />
+            </div>
+          </ShopContext.Provider>
+
+          <div className={cartClassToggle}>
+            <div className="Content__content">
+              <Switch>
+                <Route path="/product/:id" component={Product} />
+                <Route
+                  exact
+                  path="/"
+                  render={props => {
+                    return <ProductsList products={this.props.data.shop.products} />;
+                  }}
+                />
+                <Route path="/:notfound" component={NotFound} />
+              </Switch>
+            </div>
+
             <Route
               path="/"
               render={props => {
                 return (
-                  <Header
-                    accountVerificationMessage={this.state.accountVerificationMessage}
-                    title={this.props.data.shop.name}
+                  <Cart
+                    removeLineItemInCart={this.removeLineItemInCart}
+                    isCartOpen={this.state.isCartOpen}
+                    updateLineItemInCart={this.updateLineItemInCart}
+                    checkout={this.state.checkout}
+                    customerAccessToken={this.state.customerAccessToken}
                   />
                 );
               }}
             />
-          </ShopContext.Provider>
+          </div>
 
-          <Route
-            exact
-            path="/"
-            render={props => {
-              return <ProductsList products={this.props.data.shop.products} />;
-            }}
-          />
-
-          <Route
-            path="/"
-            render={props => {
-              return <Footer />;
-            }}
-          />
-
-          <Route
-            path="/"
-            render={props => {
-              return (
-                <Cart
-                  removeLineItemInCart={this.removeLineItemInCart}
-                  isCartOpen={this.state.isCartOpen}
-                  updateLineItemInCart={this.updateLineItemInCart}
-                  checkout={this.state.checkout}
-                  customerAccessToken={this.state.customerAccessToken}
-                />
-              );
-            }}
-          />
+          <div className="Footer__wrapper">
+            <Route
+              path="/"
+              render={props => {
+                return <Footer />;
+              }}
+            />
+          </div>
         </div>
       </BrowserRouter>
     );

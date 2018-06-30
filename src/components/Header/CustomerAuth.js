@@ -124,9 +124,6 @@ class CustomerAuth extends Component {
           ×
         </button>
         <div className="CustomerAuth__body">
-          <h2 className="CustomerAuth__heading">
-            {this.props.newCustomer ? "Create your Account" : "Log in to your account"}
-          </h2>
           {this.state.nonFieldErrorMessage && (
             <div className="error">{this.state.nonFieldErrorMessage}</div>
           )}
