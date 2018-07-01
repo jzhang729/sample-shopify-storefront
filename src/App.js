@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+// import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import baseStyles from "./base-styles";
 import PropTypes from "prop-types";
@@ -13,7 +14,7 @@ import Footer from "./components/Footer";
 import NotFound from "./components/NotFound";
 import Product from "./components/Product";
 
-import "./App.css";
+import "./assets/stylesheets/App.css";
 import "../node_modules/tachyons/css/tachyons.min.css";
 
 import {
@@ -78,7 +79,7 @@ class App extends Component {
       return <p>{this.props.data.error.message}</p>;
     }
 
-    const cartClassToggle = `Content__wrapper ${this.state.isCartOpen ? "cart-visible" : ""}`;
+    const classCartToggle = `Content__wrapper ${this.state.isCartOpen ? "cart-visible" : ""}`;
 
     return (
       <BrowserRouter>
@@ -104,47 +105,42 @@ class App extends Component {
                 }}
               />
             </div>
-          </ShopContext.Provider>
 
-          <div className={cartClassToggle}>
-            <div className="Content__content">
-              <Switch>
-                <Route path="/product/:id" component={Product} />
-                <Route
-                  exact
-                  path="/"
-                  render={props => {
-                    return <ProductsList products={this.props.data.shop.products} />;
-                  }}
+            <div className={classCartToggle}>
+              <div className="Content__content">
+                {this.state.isCartOpen ? <div className="overlay" /> : null}
+                <Switch>
+                  <Route path="/product/:id" component={Product} />
+                  <Route
+                    exact
+                    path="/"
+                    render={props => {
+                      return <ProductsList products={this.props.data.shop.products} />;
+                    }}
+                  />
+                  <Route path="/:notfound" component={NotFound} />
+                </Switch>
+              </div>
+
+              <div className="Content__cart">
+                <Cart
+                  removeLineItemInCart={this.removeLineItemInCart}
+                  updateLineItemInCart={this.updateLineItemInCart}
+                  checkout={this.state.checkout}
+                  customerAccessToken={this.state.customerAccessToken}
                 />
-                <Route path="/:notfound" component={NotFound} />
-              </Switch>
+              </div>
             </div>
 
-            <Route
-              path="/"
-              render={props => {
-                return (
-                  <Cart
-                    removeLineItemInCart={this.removeLineItemInCart}
-                    isCartOpen={this.state.isCartOpen}
-                    updateLineItemInCart={this.updateLineItemInCart}
-                    checkout={this.state.checkout}
-                    customerAccessToken={this.state.customerAccessToken}
-                  />
-                );
-              }}
-            />
-          </div>
-
-          <div className="Footer__wrapper">
-            <Route
-              path="/"
-              render={props => {
-                return <Footer />;
-              }}
-            />
-          </div>
+            <div className="Footer__wrapper">
+              <Route
+                path="/"
+                render={props => {
+                  return <Footer />;
+                }}
+              />
+            </div>
+          </ShopContext.Provider>
         </div>
       </BrowserRouter>
     );

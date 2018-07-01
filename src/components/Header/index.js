@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import CustomerAuthWithMutation from "./CustomerAuth";
+// import CustomerAuthWithMutation from "./CustomerAuth";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { ShopContext } from "../../shop-context";
@@ -12,12 +12,12 @@ const HeaderWrapper = styled.div`
   justify-items: center;
   align-items: center;
 
-  @media (max-width: 600px) {
+  @media (max-width: ${props => props.mediaMaxWidth}px) {
     grid-template-columns: 1fr;
   }
 `;
 
-const HeaderTitle = styled.h1`
+const HeaderLogo = styled.h1`
   font-size: 2rem;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -33,8 +33,17 @@ const HeaderColumn = styled.div`
   }
 `;
 
+const HeaderRight = styled.div`
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-auto-rows: 1fr;
+`;
+
 class Header extends Component {
   static propTypes = {
+    accountVerificationMessage: PropTypes.bool,
     title: PropTypes.string
   };
 
@@ -43,23 +52,24 @@ class Header extends Component {
       <ShopContext.Consumer>
         {({ isCartOpen, toggleCart }) => {
           return (
-            <HeaderWrapper>
+            <HeaderWrapper mediaMaxWidth={800}>
               <HeaderColumn>
-                <HeaderTitle>
+                <HeaderLogo>
                   <Link to="/">{this.props.title}</Link>
-                </HeaderTitle>
+                </HeaderLogo>
               </HeaderColumn>
 
               <HeaderColumn mediaMaxWidth={800}>
                 <p onClick={toggleCart}>lorem ipsum</p>
               </HeaderColumn>
 
-              <HeaderColumn mediaMaxWidth={800}>
-                <CustomerAuthWithMutation
+              <HeaderRight mediaMaxWidth={800}>
+                <div className="fr f7">Login | Register</div>
+                {/* <CustomerAuthWithMutation
                   associateCustomerCheckout={this.associateCustomerCheckout}
                   showAccountVerificationMessage={this.showAccountVerificationMessage}
-                />
-              </HeaderColumn>
+                /> */}
+              </HeaderRight>
             </HeaderWrapper>
           );
         }}
@@ -69,12 +79,3 @@ class Header extends Component {
 }
 
 export default Header;
-
-// {
-//   this.props.accountVerificationMessage ? (
-//     <p>
-//       We have sent you an email, please click the link included to verify your email
-//       address
-//                   </p>
-//   ) : null
-// }

@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat+Alternates');
+@import 'colors';
+@import 'animations';
+
+:root {
+  --body-font-size: 16px;
+  --body-font-family: sans-serif;
+  --body-font-weight: 300;
+  --body-bg-color: $black;
+  --body-bg-color-contrast: $white;
+  --content-bg-color: $white;
+  --content-bg-color-contrast: $black;
+  --cart-bg-color: $washed-green;
+  --cart-width: 400px;
+  --header-bg-color: $dark-green;
+  --header-bg-color-contrast: $white;
+  --footer-bg-color: $dark-green;
+  --footer-bg-color-contrast: $white;
+}
+
+html, body {
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size);  
+  font-weight: var(--body-font-weight);
+  max-width: 100vw;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+a, a:visited, a:hover {  
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.25);
+}
+
+.App__wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(auto, auto) 1fr minmax(auto, 2rem);
+  height: 100vh;
+  background-color: var(--body-bg-color);  
+}
+
+.Header__wrapper {
+  font-family: 'Montserrat Alternates', sans-serif;
+  background: var(--header-bg-color);
+  color: var(--header-bg-color-contrast);  
+}
+
+.Footer__wrapper {
+  font-family: "Montserrat Alternates", sans-serif;
+  background-color: var(--footer-bg-color);
+  color: var(--footer-bg-color-contrast);
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.Content__wrapper {
+  background-color: var(--content-bg-color);
+  color: var(--content-bg-color-contrast);
+  position: relative;
+
+  & > * {
+    transition: all 0.5s ease;
+  }
+
+  &.cart-visible {
+    .Content__cart {      
+      opacity: 1;
+      transform: translateX(0%);
+    }
+    
+  }
+}
+
+.Content__content {
+  width: 100%;
+  height: 100%;
+}
+
+.Content__cart {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--cart-width);
+  height: 100%;
+  background-color: var(--cart-bg-color);
+  z-index: 1;
+  padding: 1rem;
+  opacity: 0;
+  transform: translateX(100%);
+
+  box-shadow: 0.25rem 0 1rem #333;
+}
