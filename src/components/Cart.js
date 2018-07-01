@@ -28,6 +28,7 @@ class Cart extends Component {
 
           return (
             <div className="Content__cart" ref={this.cart}>
+              <button onClick={toggleCart}>Click Me To Close</button>
               <div>I am the cart</div>
               <div>
                 Ut laboris do quis laborum id exercitation qui. Ullamco ullamco anim ullamco commodo
