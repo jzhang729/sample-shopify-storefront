@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Product from "./ProductPreview";
 import styled from "styled-components";
+import LoadingStatus from "../LoadingStatus";
 
 const OuterWrapper = styled.div`
   display: flex;
@@ -26,7 +27,7 @@ class ProductsList extends Component {
     const { loading } = this.props;
 
     if (loading) {
-      return <OuterWrapper>Loading....</OuterWrapper>;
+      return <LoadingStatus />;
     }
 
     return <OuterWrapper>{this.renderProducts()}</OuterWrapper>;

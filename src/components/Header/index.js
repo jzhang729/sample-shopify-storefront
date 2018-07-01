@@ -6,14 +6,37 @@ import styled from "styled-components";
 import { ShopContext } from "../../shop-context";
 
 const HeaderWrapper = styled.div`
+  font-family: "Montserrat Alternates", sans-serif;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 1fr;
-  justify-items: center;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto;
+`;
+
+const Top = styled.div`
+  display: grid;
+  width: 100%;
+  grid-template-columns: 50% 1fr;
+  background: var(--header-bg-color);
+  color: var(--header-bg-color-contrast);
+  align-items: center;
+`;
+
+const Bottom = styled.div`
+  background: #eee;
+  display: flex;
+  justify-content: space-around;
   align-items: center;
 
-  @media (max-width: ${props => props.mediaMaxWidth}px) {
-    grid-template-columns: 1fr;
+  & > * {
+    padding: 0.5rem;
+    flex: 1 1 auto;
+    text-align: center;
+
+    &:hover {
+      background-color: #333;
+      color: var(--body-text-color-contrast);
+      cursor: pointer;
+    }
   }
 `;
 
@@ -24,21 +47,13 @@ const HeaderLogo = styled.h1`
   padding: 0 1rem;
 `;
 
-const HeaderColumn = styled.div`
-  justify-self: start;
-  grid-column: auto;
-
-  @media (max-width: ${props => props.mediaMaxWidth}px) {
-    display: none;
-  }
-`;
-
 const HeaderRight = styled.div`
   display: grid;
   grid-gap: 0.5rem;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   grid-auto-rows: 1fr;
+  justify-items: start;
 `;
 
 class Header extends Component {
@@ -52,25 +67,43 @@ class Header extends Component {
       <ShopContext.Consumer>
         {({ isCartOpen, toggleCart }) => {
           return (
-            <HeaderWrapper mediaMaxWidth={800}>
-              <HeaderColumn>
-                <HeaderLogo>
-                  <Link to="/">{this.props.title}</Link>
-                </HeaderLogo>
-              </HeaderColumn>
+            <div className="Header__wrapper">
+              <HeaderWrapper>
+                <Top>
+                  <HeaderLogo>
+                    <Link to="/">{this.props.title}</Link>
+                  </HeaderLogo>
 
-              <HeaderColumn mediaMaxWidth={800}>
-                <p onClick={toggleCart}>lorem ipsum</p>
-              </HeaderColumn>
-
-              <HeaderRight mediaMaxWidth={800}>
-                <div className="fr f7">Login | Register</div>
-                {/* <CustomerAuthWithMutation
+                  <HeaderRight mediaMaxWidth={800}>
+                    <div className="f7">Login | Register</div>
+                    <div className="f7" onClick={toggleCart}>
+                      Cart
+                    </div>
+                    {/* <CustomerAuthWithMutation
                   associateCustomerCheckout={this.associateCustomerCheckout}
                   showAccountVerificationMessage={this.showAccountVerificationMessage}
                 /> */}
-              </HeaderRight>
-            </HeaderWrapper>
+                  </HeaderRight>
+                </Top>
+                <Bottom>
+                  <div>
+                    <Link to="/menu1">Menu Item</Link>
+                  </div>
+                  <div>
+                    <Link to="/menu2">Menu Item</Link>
+                  </div>
+                  <div>
+                    <Link to="/menu3">Menu Item</Link>
+                  </div>
+                  <div>
+                    <Link to="/menu4">Menu Item</Link>
+                  </div>
+                  <div>
+                    <Link to="/menu6">Menu Item</Link>
+                  </div>
+                </Bottom>
+              </HeaderWrapper>
+            </div>
           );
         }}
       </ShopContext.Consumer>
