@@ -7,7 +7,6 @@ import { graphql, compose } from "react-apollo";
 import query from "./queries/shopQuery";
 import { ShopContext } from "./shop-context";
 
-// import Content from "./Content";
 import Cart from "./components/Cart";
 import Header from "./components/Header";
 import ProductsList from "./components/ProductsList";
@@ -99,7 +98,6 @@ class App extends Component {
               render={props => {
                 return (
                   <Header
-                    {...props}
                     accountVerificationMessage={this.state.accountVerificationMessage}
                     title={this.props.data.shop.name}
                   />
@@ -110,7 +108,13 @@ class App extends Component {
             <div className={classCartToggle}>
               {this.state.isCartOpen ? <div className="overlay" /> : null}
               <div className="Content__content">
-                <Route path="/product/:id" component={Product} />
+                <Route
+                  exact
+                  path="/product/:handle"
+                  render={props => {
+                    return <Product {...props} />;
+                  }}
+                />
                 <Route
                   exact
                   path="/"
@@ -135,7 +139,7 @@ class App extends Component {
             </div>
 
             <Route exact path="/loading" component={LoadingStatus} />
-            <Route path="/:notfound" component={NotFound} />
+            <Route exact path="/:notfound" component={NotFound} />
           </div>
         </BrowserRouter>
       </ShopContext.Provider>

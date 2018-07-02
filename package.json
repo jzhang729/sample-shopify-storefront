@@ -69,6 +69,7 @@
     "start-js": "node scripts/start.js",
     "build-js": "node scripts/build.js",
     "build-css": "node-sass-chokidar src/ -o src/",
+    "deploy": "firebase deploy",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm-run-all build-css build-js",

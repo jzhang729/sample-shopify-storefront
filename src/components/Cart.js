@@ -18,14 +18,7 @@ class Cart extends Component {
   render() {
     return (
       <ShopContext.Consumer>
-        {({ isCartOpen, toggleCart }) => {
-          if (isCartOpen) {
-            const offset = document.querySelector(".Content__wrapper").offsetTop;
-            console.log(this.cart.current.offsetTop);
-
-            // this.cart.current.offsetTop = offset;
-          }
-
+        {({ toggleCart }) => {
           return (
             <div className="Content__cart" ref={this.cart}>
               <button onClick={toggleCart}>Click Me To Close</button>

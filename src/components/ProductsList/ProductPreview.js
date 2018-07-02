@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const ProductWrapper = styled.div`
@@ -29,16 +30,18 @@ const ProductTitle = styled.h1`
 
 class Product extends Component {
   render() {
-    const { id, images, title } = this.props;
+    const { id, images, title, handle } = this.props;
 
     return (
       <ProductWrapper data-id={id}>
-        <ProductImageWrapper>
-          <img src={images.edges[0].node.transformedSrc} alt={title} />
-        </ProductImageWrapper>
-        <ProductInfo>
-          <ProductTitle>{title}</ProductTitle>
-        </ProductInfo>
+        <Link to={{ pathname: `/product/${handle}`, state: { id: `${id}` } }}>
+          <ProductImageWrapper>
+            <img src={images.edges[0].node.transformedSrc} alt={title} />
+          </ProductImageWrapper>
+          <ProductInfo>
+            <ProductTitle>{title}</ProductTitle>
+          </ProductInfo>
+        </Link>
       </ProductWrapper>
     );
   }

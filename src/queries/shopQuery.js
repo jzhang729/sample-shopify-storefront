@@ -13,6 +13,7 @@ export default gql`
         edges {
           node {
             id
+            handle
             title
             options {
               id
