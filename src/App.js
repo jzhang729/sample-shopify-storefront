@@ -122,12 +122,6 @@ class App extends Component {
                     return <ProductsList products={this.props.data.shop.products} />;
                   }}
                 />
-                <Route
-                  path="/"
-                  render={props => {
-                    return <Footer />;
-                  }}
-                />
               </div>
 
               <Cart
@@ -135,6 +129,13 @@ class App extends Component {
                 updateLineItemInCart={this.updateLineItemInCart}
                 checkout={this.state.checkout}
                 customerAccessToken={this.state.customerAccessToken}
+              />
+
+              <Route
+                path="/"
+                render={props => {
+                  return <Footer />;
+                }}
               />
             </div>
 

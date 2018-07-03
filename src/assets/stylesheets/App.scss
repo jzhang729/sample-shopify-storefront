@@ -51,8 +51,35 @@ a, a:visited, a:hover {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: minmax(auto, auto) 1fr;
+  grid-auto-rows: 1fr;
   height: 100vh;
   background-color: var(--body-bg-color);
+}
+
+.Content__wrapper {
+  background-color: var(--content-bg-color);
+  color: var(--content-bg-color-contrast);
+  position: relative;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+
+  & > * {
+    transition: all 0.5s ease;
+  }
+
+  &.cart-visible { 
+    overflow: hidden;
+    .Content__cart {
+      opacity: 1;
+      transform: translateX(0%);
+      overflow: scroll;
+    }
+    
+  }
+}
+
+.Content__content {
+  min-height: 100%;  
 }
 
 .Footer__wrapper {
@@ -62,29 +89,6 @@ a, a:visited, a:hover {
   text-align: center;
   padding: 0.5rem;
   font-size: 0.85rem;
-}
-
-.Content__wrapper {
-  background-color: var(--content-bg-color);
-  color: var(--content-bg-color-contrast);
-  position: relative;
-  overflow: scroll;
-
-  & > * {
-    transition: all 0.5s ease;
-  }
-
-  &.cart-visible { 
-
-    overflow: hidden;
-
-    .Content__cart {
-      opacity: 1;
-      transform: translateX(0%);
-      overflow: scroll;
-    }
-    
-  }
 }
 
 .Content__cart {
