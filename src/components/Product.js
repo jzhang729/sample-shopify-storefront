@@ -61,7 +61,12 @@ class Product extends Component {
   renderVariants = (variants = []) => {
     return variants.map(selector => {
       const { id, title, image } = selector.node;
-      return <img key={id} src={image.transformedSrc} alt={title} />;
+      return (
+        <React.Fragment key={id}>
+          <div className="fa5">{title}</div>
+          <img src={image.transformedSrc} alt={title} />
+        </React.Fragment>
+      );
     });
   };
 
@@ -76,15 +81,15 @@ class Product extends Component {
       return <LoadingStatus />;
     }
 
+    console.log(this.props.data.node);
     const variants = this.props.data.node.variants;
 
     // const variants = this.props.data.node.variants;
 
     return (
-      <div>
-        <div className="f3 bold">
-          I am a product page for Product {this.props.match.params.handle}
-        </div>
+      <div className="pa3">
+        <div className="ma3">[Breadcrumb goes here]</div>
+        <div className="ma3 f2">{this.props.data.node.title}</div>
 
         <Variants>
           <div className="f4">Variants</div>

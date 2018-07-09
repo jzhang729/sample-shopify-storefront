@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { ShopContext } from "../../shop-context";
+import { Icon } from "@material-ui/core";
 
 const HeaderWrapper = styled.div`
   font-family: "Montserrat Alternates", sans-serif;
@@ -15,7 +16,7 @@ const HeaderWrapper = styled.div`
 const Top = styled.div`
   display: grid;
   width: 100%;
-  grid-template-columns: 50% 1fr;
+  grid-template-columns: 80% 1fr;
   background: var(--header-bg-color);
   color: var(--header-bg-color-contrast);
   align-items: center;
@@ -44,16 +45,16 @@ const HeaderLogo = styled.h1`
   font-size: 2rem;
   text-transform: uppercase;
   letter-spacing: 2px;
-  padding: 0 1rem;
+  padding-left: 1rem;
 `;
 
 const HeaderRight = styled.div`
   display: grid;
   grid-gap: 0.5rem;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-  grid-auto-rows: 1fr;
+  grid-template-columns: 1fr 1fr;
   justify-items: start;
+  align-items: center;
+  padding: 0.5rem;
 `;
 
 class Header extends Component {
@@ -75,9 +76,11 @@ class Header extends Component {
                   </HeaderLogo>
 
                   <HeaderRight mediaMaxWidth={800}>
-                    <div className="f7">Login | Register</div>
-                    <div className="f7" onClick={toggleCart}>
-                      Cart
+                    <Link to="/signin">
+                      <div className="f6">Sign In</div>
+                    </Link>
+                    <div className="f7 pointer" onClick={toggleCart}>
+                      <Icon>shopping_cart</Icon>
                     </div>
                     {/* <CustomerAuthWithMutation
                   associateCustomerCheckout={this.associateCustomerCheckout}
