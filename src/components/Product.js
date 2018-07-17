@@ -81,7 +81,7 @@ class Product extends Component {
       return <LoadingStatus />;
     }
 
-    console.log(this.props.data.node);
+    // console.log(this.props.data.node);
     const variants = this.props.data.node.variants;
 
     // const variants = this.props.data.node.variants;

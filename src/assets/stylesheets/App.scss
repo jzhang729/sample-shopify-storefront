@@ -3,7 +3,8 @@
 @import 'animations';
 
 :root {
-  --breakpoint-mobile: 400px;
+  --breakpoint-sm: 400px;
+  --breakpoint-md: 600px;
   --body-font-size: 16px;
   --body-font-family: sans-serif;
   --body-font-weight: 300;

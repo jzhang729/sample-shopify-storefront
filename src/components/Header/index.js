@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { ShopContext } from "../../shop-context";
 import { Icon } from "@material-ui/core";
+import MediaQuery from "react-responsive";
+import "./Header.css";
 
 const HeaderWrapper = styled.div`
   font-family: "Montserrat Alternates", sans-serif;
@@ -22,28 +24,9 @@ const Top = styled.div`
   align-items: center;
 `;
 
-const Bottom = styled.div`
-  background: #eee;
-  display: none;
+// const Bottom = styled.div`
 
-  & > * {
-    padding: 0.5rem;
-    flex: 1 1 auto;
-    text-align: center;
-
-    &:hover {
-      background-color: #333;
-      color: var(--body-text-color-contrast);
-      cursor: pointer;
-    }
-  }
-
-  @media (min-width: 600px) {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
-`;
+// `;
 
 const HeaderLogo = styled.h1`
   font-size: 2rem;
@@ -54,11 +37,8 @@ const HeaderLogo = styled.h1`
 
 const HeaderRight = styled.div`
   display: grid;
-  grid-gap: 0.5rem;
   grid-template-columns: 1fr 1fr;
-  justify-items: start;
   align-items: center;
-  padding: 0.5rem;
 `;
 
 class Header extends Component {
@@ -79,24 +59,34 @@ class Header extends Component {
                     <Link to="/">{this.props.title}</Link>
                   </HeaderLogo>
 
-                  <HeaderRight mediaMaxWidth={800}>
-                    <Link to="/signin">
-                      <div className="f6">Sign In</div>
-                    </Link>
+                  <HeaderRight>
+                    <MediaQuery minWidth={600}>
+                      <div className="Header__desktop">
+                        <Link to="/signin">
+                          <div className="f6">Sign In</div>
+                        </Link>
+                      </div>
+                    </MediaQuery>
+                    <MediaQuery maxWidth={599}>
+                      <div className="Header__mobile">
+                        <Icon>menu</Icon>
+                      </div>
+                    </MediaQuery>
                     <div className="f7 pointer" onClick={toggleCart}>
                       <Icon>shopping_cart</Icon>
                     </div>
+
                     {/* <CustomerAuthWithMutation
                   associateCustomerCheckout={this.associateCustomerCheckout}
                   showAccountVerificationMessage={this.showAccountVerificationMessage}
                 /> */}
                   </HeaderRight>
                 </Top>
-                <Bottom>
+                <div className="Header__bottom">
                   <Link to="/menu1">Menu Item</Link>
                   <Link to="/menu2">Menu Item</Link>
                   <Link to="/menu3">Menu Item</Link>
-                </Bottom>
+                </div>
               </HeaderWrapper>
             </div>
           );
