@@ -106,7 +106,14 @@ class App extends Component {
             />
 
             <div className={classCartToggle}>
-              {this.state.isCartOpen ? <div className="overlay" /> : null}
+              {this.state.isCartOpen ? (
+                <div
+                  className="overlay"
+                  onClick={() => {
+                    this.setState({ isCartOpen: false });
+                  }}
+                />
+              ) : null}
               <div className="Content__content">
                 <Route
                   exact

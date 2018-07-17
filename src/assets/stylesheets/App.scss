@@ -14,6 +14,7 @@
   --cart-bg-color: $washed-green;
   --cart-desktop-width: 400px;
   --cart-mobile-width: 100%;
+  --header-font-family: "Montserrat Alternates", sans-serif;
   --header-bg-color: $dark-green;
   --header-bg-color-contrast: $white;
   --footer-bg-color: $dark-green;
@@ -88,7 +89,7 @@ button {
 }
 
 .Footer__wrapper {
-  font-family: "Montserrat Alternates", sans-serif;
+  font-family: var(--header-font-family);
   background-color: var(--footer-bg-color);
   color: var(--footer-bg-color-contrast);
   text-align: center;

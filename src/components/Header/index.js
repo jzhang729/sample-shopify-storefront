@@ -24,9 +24,7 @@ const Top = styled.div`
 
 const Bottom = styled.div`
   background: #eee;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+  display: none;
 
   & > * {
     padding: 0.5rem;
@@ -38,6 +36,12 @@ const Bottom = styled.div`
       color: var(--body-text-color-contrast);
       cursor: pointer;
     }
+  }
+
+  @media (min-width: 600px) {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
   }
 `;
 
@@ -89,21 +93,9 @@ class Header extends Component {
                   </HeaderRight>
                 </Top>
                 <Bottom>
-                  <div>
-                    <Link to="/menu1">Menu Item</Link>
-                  </div>
-                  <div>
-                    <Link to="/menu2">Menu Item</Link>
-                  </div>
-                  <div>
-                    <Link to="/menu3">Menu Item</Link>
-                  </div>
-                  <div>
-                    <Link to="/menu4">Menu Item</Link>
-                  </div>
-                  <div>
-                    <Link to="/menu6">Menu Item</Link>
-                  </div>
+                  <Link to="/menu1">Menu Item</Link>
+                  <Link to="/menu2">Menu Item</Link>
+                  <Link to="/menu3">Menu Item</Link>
                 </Bottom>
               </HeaderWrapper>
             </div>
