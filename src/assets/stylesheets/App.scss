@@ -60,15 +60,15 @@ button {
   grid-auto-rows: 1fr;
   height: 100vh;
   background-color: var(--body-bg-color);
+  position: relative;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
 .Content__wrapper {
   background-color: var(--content-bg-color);
   color: var(--content-bg-color-contrast);
-  position: relative;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-
+  
   & > * {
     transition: all 0.5s ease;
   }

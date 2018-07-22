@@ -95,11 +95,12 @@ class App extends Component {
           <div className="App__wrapper">
             <Route
               path="/"
-              render={props => {
+              render={routerProps => {
                 return (
                   <Header
                     accountVerificationMessage={this.state.accountVerificationMessage}
                     title={this.props.data.shop.name}
+                    {...routerProps}
                   />
                 );
               }}
