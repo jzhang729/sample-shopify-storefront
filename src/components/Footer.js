@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 class Footer extends Component {
   render() {
-    return <div className="Footer__wrapper">©️ 2018 Bund</div>;
+    return <Fragment>©️ 2018 Bund</Fragment>;
   }
 }
 

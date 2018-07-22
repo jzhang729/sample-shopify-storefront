@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Headroom from "react-headroom";
 // import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import baseStyles from "./base-styles";
@@ -93,19 +94,20 @@ class App extends Component {
       >
         <BrowserRouter>
           <div className="App__wrapper">
-            <Route
-              path="/"
-              render={routerProps => {
-                return (
-                  <Header
-                    accountVerificationMessage={this.state.accountVerificationMessage}
-                    title={this.props.data.shop.name}
-                    {...routerProps}
-                  />
-                );
-              }}
-            />
-
+            <Headroom>
+              <Route
+                path="/"
+                render={routerProps => {
+                  return (
+                    <Header
+                      accountVerificationMessage={this.state.accountVerificationMessage}
+                      title={this.props.data.shop.name}
+                      {...routerProps}
+                    />
+                  );
+                }}
+              />
+            </Headroom>
             <div className={classCartToggle}>
               {this.state.isCartOpen ? (
                 <div
@@ -141,12 +143,15 @@ class App extends Component {
 
               <Route
                 path="/"
-                render={props => {
-                  return <Footer />;
+                render={routerProps => {
+                  return (
+                    <div className="Footer__wrapper">
+                      <Footer {...routerProps} />
+                    </div>
+                  );
                 }}
               />
             </div>
-
             <Route exact path="/loading" component={LoadingStatus} />
             <Route exact path="/:notfound" component={NotFound} />
           </div>

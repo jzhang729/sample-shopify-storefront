@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import Headroom from "react-headroom";
 // import CustomerAuthWithMutation from "./CustomerAuth";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -52,43 +53,41 @@ class Header extends Component {
       <ShopContext.Consumer>
         {({ isCartOpen, toggleCart }) => {
           return (
-            <div className="Header__wrapper">
-              <HeaderWrapper>
-                <Top>
-                  <HeaderLogo>
-                    <Link to="/">{this.props.title}</Link>
-                  </HeaderLogo>
+            <HeaderWrapper>
+              <Top>
+                <HeaderLogo>
+                  <Link to="/">{this.props.title}</Link>
+                </HeaderLogo>
 
-                  <HeaderRight>
-                    <MediaQuery minWidth={600}>
-                      <div className="Header__desktop">
-                        <Link to="/signin">
-                          <div className="f6">Sign In</div>
-                        </Link>
-                      </div>
-                    </MediaQuery>
-                    <MediaQuery maxWidth={599}>
-                      <div className="Header__mobile">
-                        <Icon>menu</Icon>
-                      </div>
-                    </MediaQuery>
-                    <div className="f7 pointer" onClick={toggleCart}>
-                      <Icon>shopping_cart</Icon>
+                <HeaderRight>
+                  <MediaQuery minWidth={600}>
+                    <div className="Header__desktop">
+                      <Link to="/signin">
+                        <div className="f6">Sign In</div>
+                      </Link>
                     </div>
+                  </MediaQuery>
+                  <MediaQuery maxWidth={599}>
+                    <div className="Header__mobile">
+                      <Icon>menu</Icon>
+                    </div>
+                  </MediaQuery>
+                  <div className="f7 pointer" onClick={toggleCart}>
+                    <Icon>shopping_cart</Icon>
+                  </div>
 
-                    {/* <CustomerAuthWithMutation
+                  {/* <CustomerAuthWithMutation
                   associateCustomerCheckout={this.associateCustomerCheckout}
                   showAccountVerificationMessage={this.showAccountVerificationMessage}
                 /> */}
-                  </HeaderRight>
-                </Top>
-                <div className="Header__bottom">
-                  <Link to="/menu1">Menu Item</Link>
-                  <Link to="/menu2">Menu Item</Link>
-                  <Link to="/menu3">Menu Item</Link>
-                </div>
-              </HeaderWrapper>
-            </div>
+                </HeaderRight>
+              </Top>
+              <div className="Header__bottom">
+                <Link to="/menu1">Menu Item</Link>
+                <Link to="/menu2">Menu Item</Link>
+                <Link to="/menu3">Menu Item</Link>
+              </div>
+            </HeaderWrapper>
           );
         }}
       </ShopContext.Consumer>
