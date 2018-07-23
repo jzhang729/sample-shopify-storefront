@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import Headroom from "react-headroom";
+
 // import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import baseStyles from "./base-styles";
 import PropTypes from "prop-types";
@@ -15,6 +16,7 @@ import Footer from "./components/Footer";
 import NotFound from "./components/NotFound";
 import Product from "./components/Product";
 import LoadingStatus from "./components/LoadingStatus";
+import ScrollToTop from "./components/ScrollToTop";
 
 import "./assets/stylesheets/App.css";
 import "../node_modules/tachyons/css/tachyons.min.css";
@@ -93,22 +95,8 @@ class App extends Component {
         }}
       >
         <BrowserRouter>
-          <div className="App__wrapper">
-            <Headroom>
-              <Route
-                path="/"
-                render={routerProps => {
-                  return (
-                    <Header
-                      accountVerificationMessage={this.state.accountVerificationMessage}
-                      title={this.props.data.shop.name}
-                      {...routerProps}
-                    />
-                  );
-                }}
-              />
-            </Headroom>
-            <div className={classCartToggle}>
+          <ScrollToTop>
+            <div className={`App__wrapper ${this.state.isCartOpen ? "no-scroll" : ""}`}>
               {this.state.isCartOpen ? (
                 <div
                   className="overlay"
@@ -117,44 +105,61 @@ class App extends Component {
                   }}
                 />
               ) : null}
-              <div className="Content__content">
-                <Route
-                  exact
-                  path="/product/:handle"
-                  render={props => {
-                    return <Product {...props} />;
-                  }}
-                />
-                <Route
-                  exact
-                  path="/"
-                  render={props => {
-                    return <ProductsList products={this.props.data.shop.products} />;
-                  }}
-                />
-              </div>
-
-              <Cart
-                removeLineItemInCart={this.removeLineItemInCart}
-                updateLineItemInCart={this.updateLineItemInCart}
-                checkout={this.state.checkout}
-                customerAccessToken={this.state.customerAccessToken}
-              />
 
               <Route
                 path="/"
                 render={routerProps => {
                   return (
-                    <div className="Footer__wrapper">
-                      <Footer {...routerProps} />
-                    </div>
+                    <Header
+                      accountVerificationMessage={this.state.accountVerificationMessage}
+                      title={this.props.data.shop.name}
+                      parentDiv={this.appRef}
+                      {...routerProps}
+                    />
                   );
                 }}
               />
+
+              <div className={classCartToggle}>
+                <div className="Content__content">
+                  <Route
+                    exact
+                    path="/product/:handle"
+                    render={props => {
+                      return <Product {...props} />;
+                    }}
+                  />
+                  <Route
+                    exact
+                    path="/"
+                    render={props => {
+                      return <ProductsList products={this.props.data.shop.products} />;
+                    }}
+                  />
+                </div>
+
+                <Cart
+                  removeLineItemInCart={this.removeLineItemInCart}
+                  updateLineItemInCart={this.updateLineItemInCart}
+                  checkout={this.state.checkout}
+                  customerAccessToken={this.state.customerAccessToken}
+                />
+
+                <Route
+                  path="/"
+                  render={routerProps => {
+                    return (
+                      <div className="Footer__wrapper">
+                        <Footer {...routerProps} />
+                      </div>
+                    );
+                  }}
+                />
+              </div>
+              <Route exact path="/loading" component={LoadingStatus} />
+              <Route exact path="/:notfound" component={NotFound} />
             </div>
-            <Route exact path="/loading" component={LoadingStatus} />
-            <Route exact path="/:notfound" component={NotFound} />
-          </div>
+          </ScrollToTop>
         </BrowserRouter>
       </ShopContext.Provider>
     );

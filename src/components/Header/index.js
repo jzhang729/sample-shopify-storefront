@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Headroom from "react-headroom";
+// import Headroom from "react-headroom";
 // import CustomerAuthWithMutation from "./CustomerAuth";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { ShopContext } from "../../shop-context";
 import { Icon } from "@material-ui/core";
-import MediaQuery from "react-responsive";
+// import MediaQuery from "react-responsive";
 import "./Header.css";
 
 const HeaderWrapper = styled.div`
@@ -25,10 +25,6 @@ const Top = styled.div`
   align-items: center;
 `;
 
-// const Bottom = styled.div`
-
-// `;
-
 const HeaderLogo = styled.h1`
   font-size: 2rem;
   text-transform: uppercase;
@@ -40,6 +36,26 @@ const HeaderRight = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
+
+  @media (min-width: 600px) {
+    & > .Header__desktop {
+      display: inline-block;
+    }
+
+    & > .Header__mobile {
+      display: none;
+    }
+  }
+
+  @media (max-width: 599px) {
+    & > .Header__desktop {
+      display: none;
+    }
+
+    & > .Header__mobile {
+      display: inline-block;
+    }
+  }
 `;
 
 class Header extends Component {
@@ -48,11 +64,16 @@ class Header extends Component {
     title: PropTypes.string
   };
 
+  getParentDiv = () => {
+    return document.querySelector(".App__wrapper");
+  };
+
   render() {
     return (
       <ShopContext.Consumer>
         {({ isCartOpen, toggleCart }) => {
           return (
+            // <Headroom calcHeightOnResize={true} disabled={isCartOpen} parent={this.getParentDiv}>
             <HeaderWrapper>
               <Top>
                 <HeaderLogo>
@@ -60,18 +81,16 @@ class Header extends Component {
                 </HeaderLogo>
 
                 <HeaderRight>
-                  <MediaQuery minWidth={600}>
-                    <div className="Header__desktop">
-                      <Link to="/signin">
-                        <div className="f6">Sign In</div>
-                      </Link>
-                    </div>
-                  </MediaQuery>
-                  <MediaQuery maxWidth={599}>
-                    <div className="Header__mobile">
-                      <Icon>menu</Icon>
-                    </div>
-                  </MediaQuery>
+                  <div className="Header__desktop">
+                    <Link to="/signin">
+                      <div className="f6">Sign In</div>
+                    </Link>
+                  </div>
+
+                  <div className="Header__mobile">
+                    <Icon>menu</Icon>
+                  </div>
+
                   <div className="f7 pointer" onClick={toggleCart}>
                     <Icon>shopping_cart</Icon>
                   </div>
@@ -88,6 +107,7 @@ class Header extends Component {
                 <Link to="/menu3">Menu Item</Link>
               </div>
             </HeaderWrapper>
+            // </Headroom>
           );
         }}
       </ShopContext.Consumer>
