@@ -20,6 +20,10 @@ export default gql`
               image {
                 transformedSrc(preferredContentType: PNG, maxWidth: 300)
               }
+              selectedOptions {
+                name
+                value
+              }
               title
             }
           }

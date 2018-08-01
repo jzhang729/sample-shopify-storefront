@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
 import VariantSelector from "./VariantSelector";
@@ -11,18 +12,49 @@ const Variants = styled.div`
 `;
 
 class Product extends Component {
+  static propTypes = {
+    data: PropTypes.object
+  };
+
   state = {
     selectedOptions: {}
   };
 
-  findImage = (images, variantId) => {
-    const primary = images[0];
+  componentDidUpdate(prevProps) {
+    if (this.props.data.node !== prevProps.data.node) {
+      const { options } = this.props.data.node;
 
-    const image = images.filter(function(image) {
-      return image.variant_ids.includes(variantId);
-    })[0];
+      options.forEach(selector => {
+        this.setState({
+          selectedOptions: { [selector.name]: selector.values }
+        });
+      });
+    }
+  }
 
-    return (image || primary).src;
+  // findImage = (images, variantId) => {
+  //   const primary = images[0];
+
+  //   const image = images.filter(function(image) {
+  //     return image.variant_ids.includes(variantId);
+  //   })[0];
+
+  //   return (image || primary).src;
+  // };
+
+  renderVariantSelector = options => {
+    return options.map(option => {
+      console.log(option);
+      // const { id, title, image } = option.node;
+
+      return (
+        <VariantSelector
+          handleOptionChange={this.handleOptionChange}
+          key={option.id}
+          option={option}
+        />
+      );
+    });
   };
 
   handleOptionChange = event => {
@@ -30,7 +62,7 @@ class Product extends Component {
     let selectedOptions = this.state.selectedOptions;
     selectedOptions[target.name] = target.value;
 
-    const selectedVariant = this.props.product.variants.edges.find(variant => {
+    const selectedVariant = this.props.data.node.variants.edges.find(variant => {
       return variant.node.selectedOptions.every(selectedOption => {
         return selectedOptions[selectedOption.name] === selectedOption.value;
       });
@@ -42,33 +74,21 @@ class Product extends Component {
     });
   };
 
-  handleQuantityChange = event => {
-    this.setState({
-      selectedVariantQuantity: event.target.value
-    });
-  };
+  // handleQuantityChange = event => {
+  //   this.setState({
+  //     selectedVariantQuantity: event.target.value
+  //   });
+  // };
 
-  renderImages = images => {
-    if (!this.props.data.node) {
-      return null;
-    }
+  // renderImages = images => {
+  //   if (!this.props.data.node) {
+  //     return null;
+  //   }
 
-    return images.map((image, index) => {
-      return <img key={index} src={image.transformedSrc} />;
-    });
-  };
-
-  renderVariants = (variants = []) => {
-    return variants.map(selector => {
-      const { id, title, image } = selector.node;
-      return (
-        <React.Fragment key={id}>
-          <div className="fa5">{title}</div>
-          <img src={image.transformedSrc} alt={title} />
-        </React.Fragment>
-      );
-    });
-  };
+  //   return images.map((image, index) => {
+  //     return <img key={index} src={image.transformedSrc} />;
+  //   });
+  // };
 
   // setOptions = () => {
   //   this.props.product.options.forEach(selector => {
@@ -81,10 +101,7 @@ class Product extends Component {
       return <LoadingStatus />;
     }
 
-    // console.log(this.props.data.node);
-    const variants = this.props.data.node.variants;
-
-    // const variants = this.props.data.node.variants;
+    const options = this.props.data.node.options;
 
     return (
       <div className="pa3">
@@ -93,7 +110,7 @@ class Product extends Component {
 
         <Variants>
           <div className="f4">Variants</div>
-          {this.renderVariants(variants.edges)}
+          {this.renderVariantSelector(options)}
         </Variants>
       </div>
     );
@@ -109,42 +126,3 @@ const ProductWithQuery = compose(
 )(Product);
 
 export default ProductWithQuery;
-
-// let variantImage =
-//   this.state.selectedVariantImage || this.props.product.images.edges[0].node.src;
-// let variant = this.state.selectedVariant || this.props.product.variants.edges[0].node;
-// let variantQuantity = this.state.selectedVariantQuantity || 1;
-// let variant_selectors = this.props.product.options.map(option => {
-//   return (
-//     <VariantSelector
-//       handleOptionChange={this.handleOptionChange}
-//       key={option.id.toString()}
-//       option={option}
-//     />
-//   );
-// });
-// return (
-//   <div className="Product">
-//     {this.props.product.images.edges.length ? (
-//       <img src={variantImage} alt={`${this.props.product.title} product shot`} />
-//     ) : null}
-//     <h5 className="Product__title">{this.props.product.title}</h5>
-//     <span className="Product__price">${variant.price}</span>
-//     {variant_selectors}
-//     <label className="Product__option">
-//       Quantity
-//       <input
-//         min="1"
-//         type="number"
-//         defaultValue={variantQuantity}
-//         onChange={this.handleQuantityChange}
-//       />
-//     </label>
-//     <button
-//       className="Product__buy button"
-//       onClick={() => this.props.addVariantToCart(variant.id, variantQuantity)}
-//     >
-//       Add to Cart
-//     </button>
-//   </div>
-// );

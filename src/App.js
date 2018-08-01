@@ -125,14 +125,14 @@ class App extends Component {
                   <Route
                     exact
                     path="/product/:handle"
-                    render={props => {
-                      return <Product {...props} />;
+                    render={routerProps => {
+                      return <Product {...routerProps} />;
                     }}
                   />
                   <Route
                     exact
                     path="/"
-                    render={props => {
+                    render={routerProps => {
                       return <ProductsList products={this.props.data.shop.products} />;
                     }}
                   />
