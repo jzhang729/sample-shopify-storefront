@@ -18,20 +18,24 @@ export default gql`
             node {
               id
               image {
-                transformedSrc(preferredContentType: PNG, maxWidth: 300)
+                altText
+                transformedSrc(preferredContentType: PNG, maxWidth: 450)
               }
               selectedOptions {
                 name
                 value
               }
               title
+              price
+              compareAtPrice
             }
           }
         }
         images(first: 20) {
           edges {
             node {
-              transformedSrc(maxWidth: 500)
+              altText
+              transformedSrc(preferredContentType: PNG, maxWidth: 450)
             }
           }
         }

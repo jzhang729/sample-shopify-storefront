@@ -20,7 +20,7 @@ export default gql`
               name
               values
             }
-            variants(first: 250) {
+            variants(first: 20) {
               pageInfo {
                 hasNextPage
                 hasPreviousPage
@@ -40,7 +40,7 @@ export default gql`
                 }
               }
             }
-            images(first: 250) {
+            images(first: 20) {
               pageInfo {
                 hasNextPage
                 hasPreviousPage

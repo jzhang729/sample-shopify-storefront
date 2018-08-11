@@ -17,7 +17,9 @@ class Product extends Component {
   };
 
   state = {
-    selectedOptions: {}
+    selectedOptions: {},
+    selectedVariant: null,
+    selectedVariantImage: ""
   };
 
   componentDidUpdate(prevProps) {
@@ -44,7 +46,6 @@ class Product extends Component {
 
   renderVariantSelector = options => {
     return options.map(option => {
-      console.log(option);
       // const { id, title, image } = option.node;
 
       return (
@@ -70,7 +71,7 @@ class Product extends Component {
 
     this.setState({
       selectedVariant: selectedVariant,
-      selectedVariantImage: selectedVariant.image.src
+      selectedVariantImage: selectedVariant.image.transformedSrc
     });
   };
 
@@ -81,12 +82,9 @@ class Product extends Component {
   // };
 
   // renderImages = images => {
-  //   if (!this.props.data.node) {
-  //     return null;
-  //   }
-
   //   return images.map((image, index) => {
-  //     return <img key={index} src={image.transformedSrc} />;
+  //     console.log(image);
+  //     return <img key={index} src={image.node.transformedSrc} alt="" />;
   //   });
   // };
 
@@ -102,16 +100,26 @@ class Product extends Component {
     }
 
     const options = this.props.data.node.options;
+    const variant = this.state.selectedVariant || this.props.data.node.variants.edges[0].node;
+    const variantImage =
+      this.state.selectedVariantImage || this.props.data.node.images.edges[0].node.transformedSrc;
 
     return (
       <div className="pa3">
         <div className="ma3">[Breadcrumb goes here]</div>
         <div className="ma3 f2">{this.props.data.node.title}</div>
 
-        <Variants>
-          <div className="f4">Variants</div>
-          {this.renderVariantSelector(options)}
-        </Variants>
+        {options[0].values.length === 1 ? null : (
+          <Variants>
+            <div className="f4">Variants</div>
+            {this.renderVariantSelector(options)}
+          </Variants>
+        )}
+
+        <h2>{variant.title}</h2>
+        <img src={variantImage} />
+        <h2>${variant.price}</h2>
+        <button>Add To Cart</button>
       </div>
     );
   }
