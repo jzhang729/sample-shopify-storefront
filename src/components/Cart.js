@@ -4,10 +4,7 @@ import PropTypes from "prop-types";
 import { ShopContext } from "../shop-context";
 
 class Cart extends Component {
-  constructor(props) {
-    super(props);
-    this.cart = React.createRef();
-  }
+  cart = React.createRef();
 
   static propTypes = {
     checkout: PropTypes.object,
@@ -15,69 +12,38 @@ class Cart extends Component {
     updateLineItemInCart: PropTypes.func
   };
 
+  openCheckout = () => {
+    window.open(this.props.checkout.webUrl);
+  };
+
+  renderLineItems = lineItems => {
+    return lineItems.map(lineItem => {
+      console.log(lineItem);
+      const { id, quantity, title, variant } = lineItem.node;
+
+      const variantTitle = variant.title === "Default Title" ? "" : variant.title;
+      return (
+        <div key={id}>
+          <p>{title}</p>
+          <p>{quantity}</p>
+          <p>{variantTitle}</p>
+          <p>${variant.price}</p>
+          <hr />
+        </div>
+      );
+    });
+  };
+
   render() {
+    const { checkout } = this.props;
+
     return (
       <ShopContext.Consumer>
         {({ toggleCart }) => {
           return (
             <div className="Content__cart" ref={this.cart}>
               <button onClick={toggleCart}>Click Me To Close</button>
-              <div>I am the cart</div>
-              <div>
-                Ut laboris do quis laborum id exercitation qui. Ullamco ullamco anim ullamco commodo
-                sint non aute adipisicing laborum sit fugiat mollit. Ullamco exercitation nulla est
-                irure laboris velit nostrud excepteur ullamco ea ad excepteur.
-              </div>
-              <div>
-                Ut laboris do quis laborum id exercitation qui. Ullamco ullamco anim ullamco commodo
-                sint non aute adipisicing laborum sit fugiat mollit. Ullamco exercitation nulla est
-                irure laboris velit nostrud excepteur ullamco ea ad excepteur.
-              </div>
-              <div>
-                Ut laboris do quis laborum id exercitation qui. Ullamco ullamco anim ullamco commodo
-                sint non aute adipisicing laborum sit fugiat mollit. Ullamco exercitation nulla est
-                irure laboris velit nostrud excepteur ullamco ea ad excepteur.
-              </div>
-              <div>
-                Ut laboris do quis laborum id exercitation qui. Ullamco ullamco anim ullamco commodo
-                sint non aute adipisicing laborum sit fugiat mollit. Ullamco exercitation nulla est
-                irure laboris velit nostrud excepteur ullamco ea ad excepteur.
-              </div>
-              <div>
-                Ut laboris do quis laborum id exercitation qui. Ullamco ullamco anim ullamco commodo
-                sint non aute adipisicing laborum sit fugiat mollit. Ullamco exercitation nulla est
-                irure laboris velit nostrud excepteur ullamco ea ad excepteur.
-              </div>
-              <div>
-                Ut laboris do quis laborum id exercitation qui. Ullamco ullamco anim ullamco commodo
-                sint non aute adipisicing laborum sit fugiat mollit. Ullamco exercitation nulla est
-                irure laboris velit nostrud excepteur ullamco ea ad excepteur.
-              </div>
-              <div>
-                Ut laboris do quis laborum id exercitation qui. Ullamco ullamco anim ullamco commodo
-                sint non aute adipisicing laborum sit fugiat mollit. Ullamco exercitation nulla est
-                irure laboris velit nostrud excepteur ullamco ea ad excepteur.
-              </div>
-              <div>
-                Ut laboris do quis laborum id exercitation qui. Ullamco ullamco anim ullamco commodo
-                sint non aute adipisicing laborum sit fugiat mollit. Ullamco exercitation nulla est
-                irure laboris velit nostrud excepteur ullamco ea ad excepteur.
-              </div>
-              <div>
-                Ut laboris do quis laborum id exercitation qui. Ullamco ullamco anim ullamco commodo
-                sint non aute adipisicing laborum sit fugiat mollit. Ullamco exercitation nulla est
-                irure laboris velit nostrud excepteur ullamco ea ad excepteur.
-              </div>
-              <div>
-                Ut laboris do quis laborum id exercitation qui. Ullamco ullamco anim ullamco commodo
-                sint non aute adipisicing laborum sit fugiat mollit. Ullamco exercitation nulla est
-                irure laboris velit nostrud excepteur ullamco ea ad excepteur.
-              </div>
-              <div>
-                Ut laboris do quis laborum id exercitation qui. Ullamco ullamco anim ullamco commodo
-                sint non aute adipisicing laborum sit fugiat mollit. Ullamco exercitation nulla est
-                irure laboris velit nostrud excepteur ullamco ea ad excepteur.
-              </div>
+              {this.renderLineItems(checkout.lineItems.edges)}
             </div>
           );
         }}

@@ -26,7 +26,10 @@ import {
   checkoutLineItemsAdd,
   checkoutLineItemsUpdate,
   checkoutLineItemsRemove,
-  checkoutCustomerAssociate
+  checkoutCustomerAssociate,
+  addVariantToCart,
+  updateLineItemInCart,
+  removeLineItemInCart
 } from "./helpers/checkout";
 
 class App extends Component {
@@ -43,13 +46,14 @@ class App extends Component {
 
   state = {
     accountVerificationMessage: false,
+    checkout: null,
     isCartOpen: false,
     checkout: { lineItems: { edges: [] } },
     isNewCustomer: false,
     products: []
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.props
       .createCheckout({
         variables: {
@@ -62,6 +66,10 @@ class App extends Component {
         });
       });
   }
+
+  handleCartOpen = () => {
+    this.setState({ isCartOpen: true });
+  };
 
   showAccountVerificationMessage = () => {
     this.setState({ accountVerificationMessage: true });
@@ -126,7 +134,13 @@ class App extends Component {
                     exact
                     path="/product/:handle"
                     render={routerProps => {
-                      return <Product {...routerProps} />;
+                      return (
+                        <Product
+                          {...routerProps}
+                          addVariantToCart={addVariantToCart.bind(this)}
+                          checkoutLineItemsAdd={this.props.checkoutLineItemsAdd}
+                        />
+                      );
                     }}
                   />
                   <Route
@@ -139,8 +153,8 @@ class App extends Component {
                 </div>
 
                 <Cart
-                  removeLineItemInCart={this.removeLineItemInCart}
-                  updateLineItemInCart={this.updateLineItemInCart}
+                  removeLineItemInCart={removeLineItemInCart.bind(this)}
+                  updateLineItemInCart={updateLineItemInCart.bind(this)}
                   checkout={this.state.checkout}
                   customerAccessToken={this.state.customerAccessToken}
                 />

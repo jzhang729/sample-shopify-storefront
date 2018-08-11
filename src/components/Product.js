@@ -13,6 +13,8 @@ const Variants = styled.div`
 
 class Product extends Component {
   static propTypes = {
+    addVariantToCart: PropTypes.func,
+    checkoutLineItemsAdd: PropTypes.func,
     data: PropTypes.object
   };
 
@@ -22,7 +24,7 @@ class Product extends Component {
     selectedVariantImage: ""
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.data.node !== prevProps.data.node) {
       const { options } = this.props.data.node;
 
@@ -31,6 +33,10 @@ class Product extends Component {
           selectedOptions: { [selector.name]: selector.values }
         });
       });
+    }
+
+    if (!prevState.selectedVariant && !this.props.data.loading && this.props.data.node.variants) {
+      this.setState({ selectedVariant: this.props.data.node.variants.edges[0].node });
     }
   }
 
@@ -116,10 +122,12 @@ class Product extends Component {
           </Variants>
         )}
 
-        <h2>{variant.title}</h2>
+        <h2>{variant.title !== "Default Title" ? variant.title : ""}</h2>
         <img src={variantImage} />
         <h2>${variant.price}</h2>
-        <button>Add To Cart</button>
+        <button onClick={e => this.props.addVariantToCart(this.state.selectedVariant.id, 1)}>
+          Add To Cart
+        </button>
       </div>
     );
   }
