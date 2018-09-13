@@ -18,7 +18,6 @@ class Cart extends Component {
 
   renderLineItems = lineItems => {
     return lineItems.map(lineItem => {
-      console.log(lineItem);
       const { id, quantity, title, variant } = lineItem.node;
 
       const variantTitle = variant.title === "Default Title" ? "" : variant.title;
@@ -28,6 +27,7 @@ class Cart extends Component {
           <p>{quantity}</p>
           <p>{variantTitle}</p>
           <p>${variant.price}</p>
+          <button onClick={() => this.props.removeLineItemInCart(id)}>Remove</button>
           <hr />
         </div>
       );

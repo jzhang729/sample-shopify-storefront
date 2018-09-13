@@ -28,8 +28,7 @@ import {
   checkoutLineItemsRemove,
   checkoutCustomerAssociate,
   addVariantToCart,
-  updateLineItemInCart,
-  removeLineItemInCart
+  updateLineItemInCart
 } from "./helpers/checkout";
 
 class App extends Component {
@@ -41,7 +40,8 @@ class App extends Component {
     }).isRequired,
     createCheckout: PropTypes.func.isRequired,
     checkoutLineItemsAdd: PropTypes.func.isRequired,
-    checkoutLineItemsUpdate: PropTypes.func.isRequired
+    checkoutLineItemsUpdate: PropTypes.func.isRequired,
+    checkoutLineItemsRemove: PropTypes.func.isRequired
   };
 
   state = {
@@ -66,6 +66,21 @@ class App extends Component {
         });
       });
   }
+
+  removeLineItemInCart = lineItemId => {
+    this.props
+      .checkoutLineItemsRemove({
+        variables: {
+          checkoutId: this.state.checkout.id,
+          lineItemIds: [lineItemId]
+        }
+      })
+      .then(res => {
+        this.setState({
+          checkout: res.data.checkoutLineItemsRemove.checkout
+        });
+      });
+  };
 
   handleCartOpen = () => {
     this.setState({ isCartOpen: true });
@@ -153,10 +168,11 @@ class App extends Component {
                 </div>
 
                 <Cart
-                  removeLineItemInCart={removeLineItemInCart.bind(this)}
-                  updateLineItemInCart={updateLineItemInCart.bind(this)}
+                  removeLineItemInCart={this.removeLineItemInCart}
+                  updateLineItemInCart={this.updateLineItemInCart}
                   checkout={this.state.checkout}
                   customerAccessToken={this.state.customerAccessToken}
+                  checkoutLineItemsRemove={this.props.checkoutLineItemsRemove}
                 />
 
                 <Route

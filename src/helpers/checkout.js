@@ -119,7 +119,7 @@ export function addVariantToCart(variantId, quantity) {
   this.handleCartOpen();
 }
 
-export function updateLineItemInCart(lineItemId, quantity) {
+export const updateLineItemInCart = (lineItemId, quantity) => {
   this.props
     .checkoutLineItemsUpdate({
       variables: {
@@ -132,22 +132,7 @@ export function updateLineItemInCart(lineItemId, quantity) {
         checkout: res.data.checkoutLineItemsUpdate.checkout
       });
     });
-}
-
-export function removeLineItemInCart(lineItemId) {
-  this.props
-    .checkoutLineItemsRemove({
-      variables: {
-        checkoutId: this.state.checkout.id,
-        lineItemIds: [lineItemId]
-      }
-    })
-    .then(res => {
-      this.setState({
-        checkout: res.data.checkoutLineItemsRemove.checkout
-      });
-    });
-}
+};
 
 export function associateCustomerCheckout(customerAccessToken) {
   this.props
