@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import LineItem from "./LineItem";
 
 import { ShopContext } from "../shop-context";
 
@@ -17,19 +18,20 @@ class Cart extends Component {
   };
 
   renderLineItems = lineItems => {
-    return lineItems.map(lineItem => {
-      console.log(lineItem);
-      const { id, quantity, title, variant } = lineItem.node;
+    const { removeLineItemInCart, updateLineItemInCart } = this.props;
 
-      const variantTitle = variant.title === "Default Title" ? "" : variant.title;
+    return lineItems.map(lineItem => {
+      const { id, quantity, title, variant } = lineItem.node;
       return (
-        <div key={id}>
-          <p>{title}</p>
-          <p>{quantity}</p>
-          <p>{variantTitle}</p>
-          <p>${variant.price}</p>
-          <hr />
-        </div>
+        <LineItem
+          key={id}
+          id={id}
+          quantity={quantity}
+          removeLineItemInCart={removeLineItemInCart}
+          title={title}
+          updateLineItemInCart={updateLineItemInCart}
+          variant={variant}
+        />
       );
     });
   };

@@ -26,10 +26,7 @@ import {
   checkoutLineItemsAdd,
   checkoutLineItemsUpdate,
   checkoutLineItemsRemove,
-  checkoutCustomerAssociate,
-  addVariantToCart,
-  updateLineItemInCart,
-  removeLineItemInCart
+  checkoutCustomerAssociate
 } from "./helpers/checkout";
 
 class App extends Component {
@@ -41,7 +38,8 @@ class App extends Component {
     }).isRequired,
     createCheckout: PropTypes.func.isRequired,
     checkoutLineItemsAdd: PropTypes.func.isRequired,
-    checkoutLineItemsUpdate: PropTypes.func.isRequired
+    checkoutLineItemsUpdate: PropTypes.func.isRequired,
+    checkoutLineItemsRemove: PropTypes.func.isRequired
   };
 
   state = {
@@ -66,6 +64,53 @@ class App extends Component {
         });
       });
   }
+
+  addVariantToCart = (variantId, quantity) => {
+    this.props
+      .checkoutLineItemsAdd({
+        variables: {
+          checkoutId: this.state.checkout.id,
+          lineItems: [{ variantId, quantity: parseInt(quantity, 10) }]
+        }
+      })
+      .then(res => {
+        this.setState({
+          checkout: res.data.checkoutLineItemsAdd.checkout
+        });
+      });
+
+    this.handleCartOpen();
+  };
+
+  removeLineItemInCart = lineItemId => {
+    this.props
+      .checkoutLineItemsRemove({
+        variables: {
+          checkoutId: this.state.checkout.id,
+          lineItemIds: [lineItemId]
+        }
+      })
+      .then(res => {
+        this.setState({
+          checkout: res.data.checkoutLineItemsRemove.checkout
+        });
+      });
+  };
+
+  updateLineItemInCart = (lineItemId, quantity) => {
+    this.props
+      .checkoutLineItemsUpdate({
+        variables: {
+          checkoutId: this.state.checkout.id,
+          lineItems: [{ id: lineItemId, quantity: parseInt(quantity, 10) }]
+        }
+      })
+      .then(res => {
+        this.setState({
+          checkout: res.data.checkoutLineItemsUpdate.checkout
+        });
+      });
+  };
 
   handleCartOpen = () => {
     this.setState({ isCartOpen: true });
@@ -103,77 +148,76 @@ class App extends Component {
         }}
       >
         <BrowserRouter>
-          <ScrollToTop>
-            <div className={`App__wrapper ${this.state.isCartOpen ? "no-scroll" : ""}`}>
-              {this.state.isCartOpen ? (
-                <div
-                  className="overlay"
-                  onClick={() => {
-                    this.setState({ isCartOpen: false });
+          <div className={`App__wrapper ${this.state.isCartOpen ? "no-scroll" : ""}`}>
+            {this.state.isCartOpen ? (
+              <div
+                className="overlay"
+                onClick={() => {
+                  this.setState({ isCartOpen: false });
+                }}
+              />
+            ) : null}
+
+            <Route
+              path="/"
+              render={routerProps => {
+                return (
+                  <Header
+                    accountVerificationMessage={this.state.accountVerificationMessage}
+                    title={this.props.data.shop.name}
+                    parentDiv={this.appRef}
+                    {...routerProps}
+                  />
+                );
+              }}
+            />
+
+            <div className={classCartToggle}>
+              <div className="Content__content">
+                <Route
+                  exact
+                  path="/product/:handle"
+                  render={routerProps => {
+                    return (
+                      <Product
+                        {...routerProps}
+                        addVariantToCart={this.addVariantToCart}
+                        checkoutLineItemsAdd={this.props.checkoutLineItemsAdd}
+                      />
+                    );
                   }}
                 />
-              ) : null}
+                <Route
+                  exact
+                  path="/"
+                  render={routerProps => {
+                    return <ProductsList products={this.props.data.shop.products} />;
+                  }}
+                />
+              </div>
+
+              <Cart
+                removeLineItemInCart={this.removeLineItemInCart}
+                updateLineItemInCart={this.updateLineItemInCart}
+                checkout={this.state.checkout}
+                customerAccessToken={this.state.customerAccessToken}
+                checkoutLineItemsRemove={this.props.checkoutLineItemsRemove}
+              />
 
               <Route
                 path="/"
                 render={routerProps => {
                   return (
-                    <Header
-                      accountVerificationMessage={this.state.accountVerificationMessage}
-                      title={this.props.data.shop.name}
-                      parentDiv={this.appRef}
-                      {...routerProps}
-                    />
+                    <div className="Footer__wrapper">
+                      <Footer {...routerProps} />
+                    </div>
                   );
                 }}
               />
-
-              <div className={classCartToggle}>
-                <div className="Content__content">
-                  <Route
-                    exact
-                    path="/product/:handle"
-                    render={routerProps => {
-                      return (
-                        <Product
-                          {...routerProps}
-                          addVariantToCart={addVariantToCart.bind(this)}
-                          checkoutLineItemsAdd={this.props.checkoutLineItemsAdd}
-                        />
-                      );
-                    }}
-                  />
-                  <Route
-                    exact
-                    path="/"
-                    render={routerProps => {
-                      return <ProductsList products={this.props.data.shop.products} />;
-                    }}
-                  />
-                </div>
-
-                <Cart
-                  removeLineItemInCart={removeLineItemInCart.bind(this)}
-                  updateLineItemInCart={updateLineItemInCart.bind(this)}
-                  checkout={this.state.checkout}
-                  customerAccessToken={this.state.customerAccessToken}
-                />
-
-                <Route
-                  path="/"
-                  render={routerProps => {
-                    return (
-                      <div className="Footer__wrapper">
-                        <Footer {...routerProps} />
-                      </div>
-                    );
-                  }}
-                />
-              </div>
-              <Route exact path="/loading" component={LoadingStatus} />
-              <Route exact path="/:notfound" component={NotFound} />
             </div>
-          </ScrollToTop>
+            <Route exact path="/loading" component={LoadingStatus} />
+            <Route exact path="/:notfound" component={NotFound} />
+          </div>
         </BrowserRouter>
       </ShopContext.Provider>
     );
